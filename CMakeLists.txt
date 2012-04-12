@@ -157,6 +157,7 @@ add_subdirectory(libfreerdp-codec)
 add_subdirectory(libfreerdp-crypto)
 add_subdirectory(libfreerdp-sspi)
 add_subdirectory(libfreerdp-channels)
+add_subdirectory(libfreerdp-registry)
 add_subdirectory(libfreerdp-locale)
 add_subdirectory(libfreerdp-core)
 
