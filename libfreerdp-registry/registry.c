@@ -25,6 +25,8 @@
  * Functions: http://msdn.microsoft.com/en-us/library/windows/desktop/ms724875/
  */
 
+#ifndef _WIN32
+
 LONG WINAPI RegCloseKey(HKEY hKey)
 {
 	return 0;
@@ -381,3 +383,5 @@ LONG WINAPI RegUnLoadKeyA(HKEY hKey, LPCSTR lpSubKey)
 {
 	return 0;
 }
+
+#endif

@@ -20,6 +20,14 @@
 #ifndef FREERDP_REGISTRY_H
 #define FREERDP_REGISTRY_H
 
+#include <freerdp/utils/windows.h>
+
+#ifdef _WIN32
+
+#include <winreg.h>
+
+#else
+
 #include <freerdp/wtypes.h>
 
 #define WINAPI FREERDP_API
@@ -35,17 +43,17 @@ typedef ACCESS_MASK REGSAM;
 #define HKEY_CLASSES_ROOT								0x80000000
 #define HKEY_CURRENT_USER								0x80000001
 #define HKEY_LOCAL_MACHINE								0x80000002
-#define HKEY_USERS										0x80000003
-#define HKEY_PERFORMANCE_DATA							0x80000004
-#define HKEY_PERFORMANCE_TEXT							0x80000050
-#define HKEY_PERFORMANCE_NLSTEXT						0x80000060
+#define HKEY_USERS									0x80000003
+#define HKEY_PERFORMANCE_DATA								0x80000004
+#define HKEY_PERFORMANCE_TEXT								0x80000050
+#define HKEY_PERFORMANCE_NLSTEXT							0x80000060
 #define HKEY_CURRENT_CONFIG								0x80000005
 #define HKEY_DYN_DATA									0x80000006
-#define HKEY_CURRENT_USER_LOCAL_SETTINGS				0x80000007
+#define HKEY_CURRENT_USER_LOCAL_SETTINGS						0x80000007
 
 #define RRF_RT_REG_NONE									0x00000001
 #define RRF_RT_REG_SZ									0x00000002
-#define RRF_RT_REG_EXPAND_SZ							0x00000004
+#define RRF_RT_REG_EXPAND_SZ								0x00000004
 #define RRF_RT_REG_BINARY								0x00000008
 #define RRF_RT_REG_DWORD								0x00000010
 #define RRF_RT_REG_MULTI_SZ								0x00000020
@@ -53,7 +61,7 @@ typedef ACCESS_MASK REGSAM;
 
 #define RRF_RT_DWORD									(RRF_RT_REG_BINARY | RRF_RT_REG_DWORD)
 #define RRF_RT_QWORD									(RRF_RT_REG_BINARY | RRF_RT_REG_QWORD)
-#define RRF_RT_ANY										0x0000FFFF
+#define RRF_RT_ANY									0x0000FFFF
 
 #define RRF_NOEXPAND									0x10000000
 #define RRF_ZEROONFAILURE								0x20000000
@@ -409,6 +417,8 @@ LONG WINAPI RegUnLoadKeyA(HKEY hKey, LPCSTR lpSubKey);
 #define RegUnLoadKey RegUnLoadKeyW
 #else
 #define RegUnLoadKey RegUnLoadKeyA
+#endif
+
 #endif
 
 #endif /* FREERDP_REGISTRY_H */
