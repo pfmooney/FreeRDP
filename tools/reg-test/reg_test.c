@@ -17,14 +17,19 @@
  * limitations under the License.
  */
 
+#ifdef _WIN32
 #include <tchar.h>
+#endif
+
+#include <freerdp/wtypes.h>
+
 #include <freerdp/utils/print.h>
 #include <freerdp/registry/registry.h>
 
 #define MAX_KEY_LENGTH 255
 #define MAX_VALUE_NAME 16383
 
-void QueryKey(HKEY hKey) 
+void QueryKey(HKEY hKey)
 {
 	DWORD i;
 	DWORD status;
@@ -38,8 +43,8 @@ void QueryKey(HKEY hKey)
 	DWORD cbSecurityDescriptor;
 	FILETIME ftLastWriteTime;
 	TCHAR achKey[MAX_KEY_LENGTH];
-	TCHAR achClass[MAX_PATH] = _T("");
-	DWORD cchClassName = MAX_PATH;
+	TCHAR achClass[256] = _T("");
+	DWORD cchClassName = 256;
 	TCHAR achValue[MAX_VALUE_NAME];
 	DWORD cchValue = MAX_VALUE_NAME;
  
@@ -49,7 +54,7 @@ void QueryKey(HKEY hKey)
 	
 	if (cSubKeys)
 	{
-		printf("\nNumber of subkeys: %d\n", cSubKeys);
+		printf("\nNumber of subkeys: %d\n", (int) cSubKeys);
 
 		for (i = 0; i < cSubKeys; i++)
 		{ 
@@ -59,13 +64,13 @@ void QueryKey(HKEY hKey)
 				NULL, NULL, NULL, &ftLastWriteTime);
 
 			if (status == ERROR_SUCCESS)
-				tprintf(_T("(%d) %s\n"), i + 1, achKey);
+				tprintf(_T("(%d) %s\n"), (int) i + 1, achKey);
 		}
 	}
 
 	if (cValues)
 	{
-		printf( "\nNumber of values: %d\n", cValues);
+		printf("\nNumber of values: %d\n", (int) cValues);
 
 		for (i = 0, status = ERROR_SUCCESS; i < cValues; i++)
 		{
@@ -75,7 +80,7 @@ void QueryKey(HKEY hKey)
 			status = RegEnumValue(hKey, i, achValue, &cchValue, NULL, NULL, NULL, NULL);
  
 			if (status == ERROR_SUCCESS)
-				tprintf(_T("(%d) %s\n"), i + 1, achValue);
+				tprintf(_T("(%d) %s\n"), (int) i + 1, achValue);
 		}
 	}
 }
@@ -96,7 +101,7 @@ int main(int argc, char* argv[])
 
 	if (status != ERROR_SUCCESS)
 	{
-		tprintf(_T("RegOpenKeyEx error: 0x%08X\n"), status);
+		tprintf(_T("RegOpenKeyEx error: 0x%08lX\n"), status);
 		return 0;
 	}
 
@@ -110,7 +115,7 @@ int main(int argc, char* argv[])
 
 	if (status != ERROR_SUCCESS)
 	{
-		tprintf(_T("RegCreateKeyEx error: 0x%08X\n"), status);
+		tprintf(_T("RegCreateKeyEx error: 0x%08lX\n"), status);
 		return 0;
 	}
 
@@ -119,7 +124,7 @@ int main(int argc, char* argv[])
 
 	if (status != ERROR_SUCCESS)
 	{
-		tprintf(_T("RegSetValueEx error: 0x%08X\n"), status);
+		tprintf(_T("RegSetValueEx error: 0x%08lX\n"), status);
 		return 0;
 	}
 
@@ -131,7 +136,7 @@ int main(int argc, char* argv[])
 
 	if (status != ERROR_SUCCESS)
 	{
-		tprintf(_T("RegCreateKeyEx error: 0x%08X\n"), status);
+		tprintf(_T("RegCreateKeyEx error: 0x%08lX\n"), status);
 		return 0;
 	}
 
@@ -140,13 +145,13 @@ int main(int argc, char* argv[])
 
 	if (status != ERROR_SUCCESS)
 	{
-		tprintf(_T("RegQueryValueEx error: 0x%08X\n"), status);
+		tprintf(_T("RegQueryValueEx error: 0x%08lX\n"), status);
 		return 0;
 	}
 
 	if (dwValue != TEST_DWORD_VALUE)
 	{
-		tprintf(_T("test value mismatch: actual:%d expected:%d\n"), dwValue, TEST_DWORD_VALUE);
+		tprintf(_T("test value mismatch: actual:%d expected:%d\n"), (int) dwValue, TEST_DWORD_VALUE);
 	}
 
 	RegCloseKey(hKey);

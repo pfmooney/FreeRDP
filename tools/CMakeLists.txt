@@ -19,6 +19,5 @@
 
 # Tools
 
-if(WIN32)
-	add_subdirectory(reg-test)
-endif()
+add_subdirectory(reg-test)
+
