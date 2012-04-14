@@ -17,14 +17,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+if(NOT WIN32)
+	set(WITH_REGISTRY_XML true)
+endif()
+
 set(FREERDP_REGISTRY_SRCS
 	registry.c)
+
+set(FREERDP_REGISTRY_XML_SRCS
+	registry_xml.c
+	registry_xml.h)
+
+if(WITH_REGISTRY_XML)
+	set(FREERDP_REGISTRY_SRCS ${FREERDP_REGISTRY_SRCS} ${FREERDP_REGISTRY_XML_SRCS})
+endif()
 
 add_library(freerdp-registry ${FREERDP_REGISTRY_SRCS})
 
 set_target_properties(freerdp-registry PROPERTIES VERSION ${FREERDP_VERSION_FULL} SOVERSION ${FREERDP_VERSION} PREFIX "lib")
 
-target_link_libraries(freerdp-registry freerdp-utils)	
+if(WITH_REGISTRY_XML)
+	find_required_package(LibXml2)
+	add_definitions("${LIBXML2_DEFINITIONS}")
+	include_directories(SYSTEM ${LIBXML2_INCLUDE_DIR})
+	target_link_libraries(freerdp-registry ${LIBXML2_LIBRARIES})
+endif()
+
+target_link_libraries(freerdp-registry freerdp-utils)
 
 install(TARGETS freerdp-registry DESTINATION ${CMAKE_INSTALL_LIBDIR})
 

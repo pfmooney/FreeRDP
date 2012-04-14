@@ -27,6 +27,8 @@
 
 #ifndef _WIN32
 
+#include "registry_xml.h"
+
 LONG WINAPI RegCloseKey(HKEY hKey)
 {
 	return 0;
