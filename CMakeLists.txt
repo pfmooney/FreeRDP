@@ -177,6 +177,11 @@ endif()
 
 add_subdirectory(keymaps)
 
+option(WITH_TOOLS "Build testing tools" OFF)
+if(WITH_TOOLS)
+	add_subdirectory(tools)
+endif()
+
 # Source package
 set(CPACK_SOURCE_IGNORE_FILES "/\\\\.git/;/\\\\.gitignore;/CMakeCache.txt")
 

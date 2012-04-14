@@ -25,6 +25,13 @@
 #ifdef _WIN32
 #define	snprintf	sprintf_s
 #define strcasecmp	_stricmp
+#define tprintf		_tprintf
+#else
+#ifdef UNICODE
+#define tprintf		wprintf
+#else
+#define tprintf		printf
+#endif
 #endif
 
 #endif /* FREERDP_PRINT_UTILS_H */
